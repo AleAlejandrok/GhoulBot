@@ -80,4 +80,4 @@ class Screen:
 		for _ in range(steps):
 			pydirectinput.moveRel(int(x_step), int(y_step), relative=True)
 			time.sleep(delay)
-		pydirectinput.PAUSE = .1
+		pydirectinput.PAUSE = .35

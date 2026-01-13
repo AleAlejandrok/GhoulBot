@@ -6,17 +6,6 @@ import os
 import time
 
 class Map(Screen):
-	def open(self):
-		pydirectinput.press('m', duration=.02)
-		time.sleep(.5)
-		expand_x, expand_y = self.find_expand_icon().pop()
-		pydirectinput.moveTo(expand_x, expand_y)
-		self.game_click(expand_x, expand_y)
-		time.sleep(1)
-		pydirectinput.press('z', duration=.02)
-		pydirectinput.moveRel(0,-100)
-		pydirectinput.moveRel(None, -1000)
-
 	@property
 	def highway_town_image(self):
 		path = os.path.abspath('ui/highway_town.png')
@@ -41,7 +30,7 @@ class Map(Screen):
 		return self.find(self.expand_icon_image)
 	
 	def fast_travel_on_self(self):
-		pydirectinput.press('m', duration=.02)
+		self.open()
 		time.sleep(1)
 		x, y = pydirectinput.position()
 		self.game_click(x, y)
@@ -58,7 +47,23 @@ class Map(Screen):
 		time.sleep(.5)
 		pydirectinput.press('enter', duration=.2)
 
+	def open(self):
+		expand_icon = []
+		while(not len(expand_icon) > 0):
+			pydirectinput.press('m', duration=.02)
+			time.sleep(.5)
+			expand_icon = self.find_expand_icon()
+
+
 	def event_loop(self):
+		self.open()
+		expand_x, expand_y = self.find_expand_icon().pop()
+		pydirectinput.moveTo(expand_x, expand_y)
+		self.game_click(expand_x, expand_y)
+		time.sleep(1)
+		pydirectinput.press('z', duration=.02)
+		pydirectinput.moveRel(0,-100)
+		pydirectinput.moveRel(None, -1000)
 		event_found = False
 		while(not event_found):
 			scraped_events = self.find_event_icons()
@@ -69,6 +74,8 @@ class Map(Screen):
 		#just grab the first one for rn, we can do decision trees later
 		event_x, event_y = scraped_events.pop()
 		self.fast_travel_to_event(event_x, event_y)
+		self.fast_travel_to_event(event_x, event_y)
+
 
 	def zoom_out(self):
 		pydirectinput.scroll(-3000)
@@ -129,7 +136,7 @@ class Map(Screen):
 		pydirectinput.mouseUp()
 
 	def fast_travel_to_highway_town	(self):
-		pydirectinput.press('m', duration=.02)
+		self.open()
 		time.sleep(1)
 		self.zoom_out()
 		self.tilt_down()
@@ -156,6 +163,7 @@ class Map(Screen):
 		pydirectinput.press('enter', duration=.02)
 		pydirectinput.press('enter', duration=.02)
 		time.sleep(1)
+		pydirectinput.press('down', duration=.02)
 		pydirectinput.press('enter', duration=.02)
 
 

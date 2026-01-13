@@ -51,8 +51,13 @@ class FirstPerson(Screen):
 	def event_loop(self):
 		self.game_relative_mouse_movement(0, 1000, 50, .01)
 		event_loaded = self.get_in_quest_area()
+		start_time = time.time()
 		while(not event_loaded):
+			#start a timer if timer runs out and no text, return
 			event_loaded = self.get_in_quest_area()
+			if(time.time() - start_time > 30 and not event_loaded):
+				print("Are we late to the event?")
+				return
 		while(event_loaded):    
 			self.jiggle()	
 			event_loaded = self.get_in_quest_area()

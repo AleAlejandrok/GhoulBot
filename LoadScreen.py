@@ -12,13 +12,16 @@ class LoadScreen(Screen):
 		print(path)
 		return np.array(Image.open(path))
 	
+	@property
+	def loading_finish_icon(self):
+		path = os.path.abspath('ui/load_finished.png')
+		return np.array(Image.open(path))
+	
 	def waitForLoadingToFinish(self):
 		print('Waiting for load screen')
 		time.sleep(1)
-		loading_cog = list(filter(None, self.find(self.loading_icon)))
+		loading_cog = list(filter(None, self.find(self.loading_finish_icon)))
 		while(len(loading_cog) == 0):
-			loading_cog = self.find(self.loading_icon)
-		while(len(loading_cog) > 0):
-			loading_cog = self.find(self.loading_icon)
+			loading_cog = self.find(self.loading_finish_icon)
 		print('Game has loaded')
 		time.sleep(10)
