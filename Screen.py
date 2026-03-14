@@ -26,7 +26,7 @@ class Screen:
 		return img_cv, left, top
 
 	def find(self, template, threshold=0.85):
-		#I vibe-coded the fuck outta this, it may be bad
+		#I vibe-coded this because my math skills were not ready for image-manip, it may be bad
 		img, x0, y0 = self.capture()
 		
 		gray_screen = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
